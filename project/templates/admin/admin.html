@@ -1,0 +1,13 @@
+
+{% block content %}
+
+{% if user.is_authenticated and user.is_staff %}
+  Hi {{ user.username }}!, you are administrator
+  <br>
+  <a href="{% url 'main:logout' %}">logout</a>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'main:index' %}">login from here</a>
+{% endif %}
+
+{% endblock %}
