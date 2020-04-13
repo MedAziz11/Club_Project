@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% load static %}    
+
+    <!-- Title Page-->
+    <title>{{ user.username }} </title>
+
+    <link href="{% static '/club/css/font-face.css' %}" rel="stylesheet" media="all">
+    <link href="{% static '/club/vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static '/club/vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static '/club/css/theme.css' %}" rel="stylesheet" media="all">
+
+</head>
+
+<body class="animsition">
+{% if user.is_authenticated %}
+     <header class="header-desktop4">
+            <div class="container">
+                <div class="header4-wrap">
+                    <div class="header__logo">
+                        <a href="#">
+                            <h1>ISI EVENTS </h1>
+                        </a>
+                    </div>
+                    <div class="header__tool">
+                        <div class="header-button-item {{ notification }} js-item-menu"><!-- just delete has-noti-->
+                            <i class="zmdi zmdi-notifications"></i>
+                            {% if notification %}
+                            <div class="notifi-dropdown js-dropdown">
+                                <div class="notifi__title">
+                                    <p>You have new Notifications</p>
+                                </div>
+                                <div class="notifi__item">
+                                    <div class="bg-c3 img-cir img-40">
+                                        <i class="zmdi zmdi-file-text"></i>
+                                    </div>
+                                    <div class="content">
+                                        <p>You got a new event request</p>
+                                    </div>
+                                </div>
+                                <div class="notifi__footer">
+                                    <a href="#">Request list</a>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="notifi-dropdown js-dropdown">
+                                <div class="notifi__title">
+                                    <p> No Notifications</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="account-wrap">
+                            <div class="account-item account-item--style2 clearfix js-item-menu">
+                                <div class="image">
+                                    <img src="{% static '/club/images/c_lab.jpg' %}" alt="" />
+                                </div>
+                                <div class="content">
+                                    <a class="js-acc-btn" href="#">&nbsp;{{ user.username }}  &nbsp;</a>
+                                </div>
+                                <div class="account-dropdown js-dropdown">
+                                    
+                                    <div class="account-dropdown__footer">
+                                        <a href="{% url 'main:logout' %}">
+                                            <i class="zmdi zmdi-power"></i>Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END HEADER DESKTOP -->
+
+        <!-- WELCOME-->
+        <section class="welcome2 p-t-20 p-b-20">
+            <div class="container">
+                
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="welcome2-inner m-t-2">
+                            <div class="welcome2-greeting">
+                                <h1 class="title-6">Hi
+                                    <span>{{ user.username }}</span>, Welcome back</h1>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END WELCOME-->
+
+        {% block content %}
+        {% endblock %}
+
+
+
+    {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'main:index' %}">login from here</a>
+    {% endif %}
+
+
+    <script src="{% static '/club/vendor/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/club/vendor/chartjs/Chart.bundle.min.js' %}"></script>
+    <script src="{% static '/club/vendor/animsition/animsition.min.js' %}"></script>
+    <script src="{% static '/club/js/main.js' %}"></script>
+
+
+
+</body>
+
+</html>
+<!-- end document-->

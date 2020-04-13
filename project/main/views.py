@@ -12,7 +12,7 @@ from django.urls import reverse
 def index_view(request):
   if request.user.is_authenticated: # we test if the user already authenticated
     if request.user.is_staff: # make redirection based on is_staff or not
-      return HttpResponseRedirect(reverse('main:admin_portal', args=()))
+      return HttpResponseRedirect(reverse('administration:admin_portal', args=()))
     elif not request.user.is_staff:
       return HttpResponseRedirect(reverse('club:club_portal', args=()))
   else: # if the user not authenticated, we must show him the login page
