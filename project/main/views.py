@@ -52,5 +52,4 @@ def logout_view(request):
   return render(request, 'main/login.html')
 
 
-#def admin(request):
-#  return render(request, 'main/admin.html')
+

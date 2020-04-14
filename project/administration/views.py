@@ -23,3 +23,5 @@ def admin(request):
   }
   return render(request, 'admin/admin.html', context)
 
+def request_view(request):
+  return render(request, 'admin/request_form.html')
