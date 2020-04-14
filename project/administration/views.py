@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from club.models import Request
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -10,7 +10,7 @@ def admin(request):
   clubs = User.objects.count()-1
   accepted = Request.objects.filter(statut='process').count()
   denied = Request.objects.filter(statut='denied').count()
-  awaits =  Request.objects.filter(statut='await').count()
+  awaits =  Request.objects.filter(statut='await')
   context ={
     'requests_list': all_requests ,
     'events_list': todays_events , 
@@ -18,10 +18,19 @@ def admin(request):
     'clubs': clubs ,
     'accepted': accepted,
     'denied' : denied,
-    'awaits': awaits, 
-    'notification':'has-noti' if awaits>0 else ''
+    'awaits_all'
+    'awaits': awaits.count(), 
+    'notification':'has-noti' if awaits.count()>0 else ''
   }
   return render(request, 'admin/admin.html', context)
 
-def request_view(request):
-  return render(request, 'admin/request_form.html')
+def request_view(request , pk):
+  club_request = Request.objects.get(pk=pk)
+  context={
+    'club':club_request.name,
+    'event' :club_request.event,
+    'classe' : club_request.classe,
+    'date' : club_request.date,
+    'description' : club_request.description,
+  }
+  return render(request, 'admin/request_form.html', context)
