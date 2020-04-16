@@ -1,0 +1,100 @@
+{% extends 'layout.html' %}
+{% block stylesheet %}
+<!--Calendar shit-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+    <!-- Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+
+{% endblock %}
+{% block content %}
+<form action="{% url 'club:submit_event'   %}" method="POST">
+    {% csrf_token %}
+    <div class="row justify-content-md-center">
+        <div class="col-lg-6">
+
+            <div class="card">
+                <div class="card-header">
+                    <strong>Request </strong> Form
+                </div>
+                <div class="card-body card-block">
+                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label class=" form-control-label">Club</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <p class="form-control-static" name="club" value="{{ user.username }}">{{ user.username }}</p>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="disabled-input" class=" form-control-label" >Event </label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <input type="text" id="disabled-input" name="event" placeholder="Event"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="disabled-input" class=" form-control-label">Date</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                  <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                                  <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="disabled-input" class=" form-control-label">Classe</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <input type="text" id="input" name="classe" placeholder="Classe example:BIB1 "
+                                    class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="textarea" class=" form-control-label">Description</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <textarea name="description" id="textarea-disabled-input" rows="9"
+                                    placeholder="Description.." class="form-control" required></textarea>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> Send
+                            </button>
+                            <button type="reset" class="btn btn-danger btn-sm">
+                                <i class="fa fa-ban"></i> Reset
+                            </button>
+                        </div>
+                </div>
+
+            </div>
+</form>
+{% endblock %}
+{% block js %}
+<script>
+    $(function () {
+      $("#datetimepicker1").datetimepicker();
+    });
+</script>
+{% endblock %}

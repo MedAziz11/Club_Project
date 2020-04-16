@@ -15,6 +15,8 @@ class Request (models.Model):
     classe = models.CharField(max_length=5, blank=False, null=False)
     date = models.DateTimeField(blank=True, null=True , default=timezone.now)
     description = models.TextField()
+    note = models.TextField(blank=True, null=True)
+    date_request =models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
