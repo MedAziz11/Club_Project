@@ -3,26 +3,14 @@
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static '/main/fonts/material-icon/css/material-design-iconic-font.min.css' %}">    
-    <link rel="stylesheet" href="{% static '/main/css/style.css' %}">
-    <link rel="stylesheet" href="{% static '/main/css/cosmo.min.css' %}">
+<link rel="stylesheet" href="{% static '/main/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+<link rel="stylesheet" href="{% static '/main/css/style.css' %}">
+<link rel="stylesheet" href="{% static '/main/css/cosmo.min.css' %}">
 {% endblock %}
 
 
 {% block content %}
 
-{% if created %}
-<div class="alert alert-dismissible alert-success">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <strong>Well done!</strong> <a class="alert-link">{{ created }}</a>.
-  </div>
-{% elif notexist %}
-     <div class="top" >
-        <div class="alert alert-dismissible alert-danger">
-            <strong>Error !</strong> <a href="{% url 'main:signup' %}" class="alert-link">{{ notexist }} click me to create an account!</a> 
-        </div>
-    </div>
-{% endif %}
 
 <div class="main">
     <section class="sign-in">
@@ -39,18 +27,27 @@
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="name" id="your_name" placeholder="Club Name"/>
+                            <input type="text" name="name" id="your_name" placeholder="Club Name" />
                         </div>
                         <div class="form-group">
                             <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                            <input type="password" name="pass" id="your_pass" placeholder="Password"/>
+                            <input type="password" name="pass" id="your_pass" placeholder="Password" />
                         </div>
+                        {% if notexist %}
+                        <div class="top">
+                            <div class="alert alert-dismissible alert-danger">
+                                <strong>Error !</strong> <a href="{% url 'main:signup' %}"
+                                    class="alert-link">{{ notexist }} click me to create an account!</a>
+                            </div>
+                        </div>
+                        {% endif %}
                         <div class="form-group">
                             <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                            <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                            <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember
+                                me</label>
                         </div>
                         <div class="form-group form-button">
-                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
                         </div>
                     </form>
                     <div class="social-login">
@@ -71,6 +68,6 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static '/main/vendor/jquery/jquery.min.js' %}" ></script>
-    <script src="{% static '/main/js/main.js' %}" ></script>
+<script src="{% static '/main/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static '/main/js/main.js' %}"></script>
 {% endblock %}

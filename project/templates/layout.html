@@ -6,9 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% load static %}
+   
 
     <!-- Title Page-->
-    <title>{{ user.username }} </title>
+    <title>{{ user.username|title }} </title>
 
     <link href="{% static '/club/css/font-face.css' %}" rel="stylesheet" media="all">
     <link href="{% static '/club/vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet"
@@ -47,24 +48,30 @@
                                 </div>
                             </div>
                             <div class="notifi__footer">
-                                <a href="#">Request list</a>
+                                <a href=".">Request list</a>
                             </div>
                         </div>
-                        {% elif notification and not user.is_staff %}
+                        {% elif notification and not user.is_staff   %}
                         <div class="notifi-dropdown js-dropdown">
                             <div class="notifi__title">
                                 <p>Pending Notifications </p>
                             </div>
+                        {% for request in requests_not_await %}
                             <div class="notifi__item">
                                 <div class="bg-c3 img-cir img-40">
                                     <i class="zmdi zmdi-file-text"></i>
                                 </div>
                                 <div class="content">
-                                    <p>You got a response from ISI</p>
+                                   
+                                    <p>{{ request.event }} :   {{ request.get_statut_display  }}</p>
+                                    
+                                    <span>{{ request.note }}</span>
+                                    
                                 </div>
                             </div>
+                        {% endfor %}    
                             <div class="notifi__footer">
-                                <a href="#">Request list</a>
+                                <a  href="" >Delete Notifications</a>
                             </div>
                         </div>
 
@@ -79,13 +86,18 @@
                     <div class="account-wrap">
                         <div class="account-item account-item--style2 clearfix js-item-menu">
                             <div class="image">
-                                <img src="{% static '/club/images/c_lab.jpg' %}" alt="" />
+                                <img src=" /{{ user.profile.image.url }}" alt="" />
                             </div>
-                            <div class="content">
-                                <a class="js-acc-btn" href="#">&nbsp;{{ user.username }} &nbsp;</a>
-                            </div>
-                            <div class="account-dropdown js-dropdown">
 
+                            <div class="content">
+                                <a class="js-acc-btn" href="#">&nbsp;{{ user.username }}  &nbsp;</a>
+                            </div>
+                        
+                            <div class="account-dropdown js-dropdown">
+                                <div class="account-dropdown__item">
+                                    <a href="#">
+                                        <i class="zmdi zmdi-account"></i>Account</a>
+                                </div>
                                 <div class="account-dropdown__footer">
                                     <a href="{% url 'main:logout' %}">
                                         <i class="zmdi zmdi-power"></i>Logout</a>

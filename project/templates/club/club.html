@@ -108,6 +108,7 @@
                                     <th>Event name</th>
                                     <th>Status</th>
                                     <th>class N*</th>
+                                    <th>More</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -118,8 +119,17 @@
                                             href="{% url 'administration:request_form' pk=request.pk %}">{{ request.name }}</a>
                                     </td>
                                     <td>{{ request.event }}</td>
-                                    <td class="{{ request.statut }}">{{ request.get_statut_display }}</td>
+                                    <td class="{{ request.statut }}  ">{{ request.get_statut_display }}</td>
                                     <td>{{ request.classe }}</td>
+
+                                    <td>
+                                        <div class="table-data-feature">
+                                            <a class="item" data-toggle="tooltip" data-placement="top" title=""
+                                                data-original-title="More">
+                                                <i class="zmdi zmdi-more"></i>
+                                            </a>
+                                        </div>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

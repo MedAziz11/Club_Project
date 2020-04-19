@@ -110,6 +110,7 @@
                                     <th>Event name</th>
                                     <th>Status</th>
                                     <th>class N*</th>
+                                    <th>Edit &nbsp;&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -122,6 +123,15 @@
                                     <td>{{ request.event }}</td>
                                     <td class="{{ request.statut }}">{{ request.get_statut_display }}</td>
                                     <td>{{ request.classe }}</td>
+                                    <td>
+                                        <div class="table-data-feature">
+                                            <a class="item" data-toggle="tooltip" data-placement="top" title=""
+                                                data-original-title="Edit"
+                                                href="{% url 'administration:request_form' pk=request.pk %}">
+                                                <i class="zmdi zmdi-edit"></i>
+                                            </a>
+                                        </div>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

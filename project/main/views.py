@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
-
+from main.forms import RegisterForm
+from django.contrib import messages
 #def index_view(request):
 #  return render(request, 'main/login.html')
 
@@ -19,24 +19,22 @@ def index_view(request):
     return render(request, 'main/login.html')
 
 def signup_view(request):
-  return render(request, 'main/signup.html')
+  if not request.user.is_authenticated:
+    form = RegisterForm(request.POST or None)
+    if form.is_valid():
+      password = form.cleaned_data.get('password')
+      print(password)
+      form.save()
+      form = RegisterForm()
+      return HttpResponseRedirect(reverse('main:index', args=()))
+    return render(request, 'main/signup.html', {"form":form})
+  return HttpResponseRedirect(reverse('main:index', args=()))
 
-def register_view(request):
-  name = request.POST.get('name')
-  search = User.objects.filter(username=name)
-  if request.method =="POST" and len(search)==0 :
-    email = request.POST.get('email')
-    password = request.POST.get('pass')
-    user = User.objects.create_user(name, email, password)
-    user.save()
-    #return HttpResponseRedirect(reverse('main:index', args=()))
-    return render(request, 'main/login.html',  {'created':'Account created succesfully'})
-  else:
-    return render(request, 'main/signup.html',  {'exist':'Club Alredy exists'})
 
 def login_view(request):
   username = request.POST.get('name', False)
   password = request.POST.get('pass', False)
+  print(password)
   user = authenticate(username=username, password=password)   #autheticate
   if user is not None and user.is_active: # if the authetication goes well and the user is active
     login(request, user) # do the login in django system
@@ -50,6 +48,3 @@ def login_view(request):
 def logout_view(request):
   logout(request)
   return render(request, 'main/login.html')
-
-
-

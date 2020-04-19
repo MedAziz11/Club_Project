@@ -16,6 +16,7 @@ def club(request):
   awaits =  Request.objects.filter(name=request.user, statut='await')
   context ={
     'requests_list': club_requests ,
+    'requests_not_await': club_requests.exclude(statut="await") ,
     'events_list': todays_events , 
     'today': today.strftime("%d %B , %Y"),
     'clubs': clubs ,
