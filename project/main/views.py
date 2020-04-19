@@ -22,9 +22,12 @@ def signup_view(request):
   if not request.user.is_authenticated:
     form = RegisterForm(request.POST or None)
     if form.is_valid():
+      username = form.cleaned_data.get('username')
       password = form.cleaned_data.get('password')
-      print(password)
       form.save()
+      user = User.objects.get(username=username)
+      user.set_password(password)# because the form is making the password unusable for the authentification
+      user.save()
       form = RegisterForm()
       return HttpResponseRedirect(reverse('main:index', args=()))
     return render(request, 'main/signup.html', {"form":form})

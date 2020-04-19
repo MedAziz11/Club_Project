@@ -39,7 +39,8 @@ def request_view(request , pk):
       'statut' : club_request.statut if club_request.statut=='process' else None ,
       'notification':'has-noti' if awaits.count()>0 else ''
     }
-  return render(request, 'admin/request_form.html', context)
+    return render(request, 'admin/request_form.html', context)
+  return  HttpResponseRedirect(reverse('administration:admin_portal',args=() ))
 
 def submit_view(request, pk):
   if request.method =='POST':

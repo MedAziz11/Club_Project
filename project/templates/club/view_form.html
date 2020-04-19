@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% if not user.is_staff %}
+<form action="{% url 'administration:submit_form' pk=pk  %}" method="POST">
+    {% csrf_token %}
+    <div class="row justify-content-md-center">
+        <div class="col-lg-6">
+
+            <div class="card">
+                <div class="card-header">
+                    <strong>Request </strong> Form
+                </div>
+                <div class="card-body card-block">
+                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label class=" form-control-label">Club</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <p class="form-control-static">{{ club }}</p>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="disabled-input" class=" form-control-label">Event </label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <input type="text" id="disabled-input" name="disabled-input" placeholder="{{ event }}"
+                                    disabled="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="disabled-input" class=" form-control-label">Date</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <input type="text" id="disabled-input" name="disabled-input" placeholder="{{date }}"
+                                    disabled="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="disabled-input" class=" form-control-label">Classe</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <input type="text" id="disabled-input" name="disabled-input" placeholder="{{classe }}"
+                                    disabled="" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="textarea" class=" form-control-label">Description</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <textarea name="textarea" id="textarea-disabled-input" rows="9"
+                                    placeholder="{{ description }}" class="form-control" disabled=""></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="textarea" class=" form-control-label">Note</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <textarea name="note" id="textarea-disabled-input" rows="9" placeholder="{{ note }}"
+                                    class="form-control" disabled=""></textarea>
+                            </div>
+                        </div>
+
+                        
+                </div>
+
+            </div>
+</form>
+{% endif %}
+{% endblock %}

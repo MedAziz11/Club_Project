@@ -7,7 +7,7 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.png', upload_to='static/media')
+    image = models.ImageField(default='static\media\default.jpg', upload_to='static/media')
 
     def __str__(self):
         return f"{ self.user.username } profile"
@@ -18,3 +18,7 @@ def update_profile_signal(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()#when a user is signup this adds a profile automatically
+
+@receiver(post_save, sender=User)
+def save_profile(sender, instance, **kwargs):
+    instance.profile.save()
