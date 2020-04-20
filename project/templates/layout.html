@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="notifi__footer">
-                                <a href="{% url 'main:index' %}">Request list</a>
+                                <a href="{% url 'main:index' %}">Scroll down to see the full list</a>
                             </div>
                         </div>
                         {% elif notification and not user.is_staff   %}
@@ -106,19 +106,16 @@
                                         <h5 class="name">
                                             <a href="#">{{ user.username|title }}</a>
                                         </h5>
-                                        <form method="POST", action="">
+                                        <form method="POST", action="" , enctype="multipart/form-data">
                                             {% csrf_token %}
                                         <p class="file-upload" >
-                                            {{ form.image }}
-                                            <button type="submit" class="btn btn-dark"></button>
+                                            {{ form.as_ul }}
+                                            <button type="submit" class="btn btn-dark">save</button>
                                         </p>
                                     </form>
                                     </div>
                                 </div>
-                                <div class="account-dropdown__item">
-                                    <a href="#">
-                                        <i class="zmdi zmdi-account"></i>Account</a>
-                                </div>
+                               
                                 <div class="account-dropdown__footer">
                                     <a href="{% url 'main:logout' %}">
                                         <i class="zmdi zmdi-power"></i>Logout</a>

@@ -13,7 +13,7 @@ class Request (models.Model):
     name = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.CharField(max_length=50, blank=False, null=False)
     classe = models.CharField(max_length=5, blank=False, null=False)
-    date = models.DateTimeField(blank=True, null=True , default=timezone.now)
+    date = models.DateTimeField(blank=True, null=True )
     description = models.TextField()
     note = models.TextField(blank=True, null=True)
     date_request =models.DateTimeField(auto_now=True)

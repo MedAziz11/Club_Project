@@ -1,55 +1,68 @@
 from datetime import datetime
 
+from club.forms import DateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from main.forms import ProfileForm
-from .models import Request
 
+from .models import Request
+from django.utils.dateparse import parse_date 
 # Create your views here.**
 
 
 @login_required
 def club(request):
-  all_requests = Request.objects.all()
-  today = datetime.now()
-  todays_events = [request for request in all_requests if request.date.date() == today.date() and request.statut=='process']  
-  clubs = User.objects.count()-1
-  club_requests = Request.objects.filter(name=request.user).order_by('-date_request')
-  accepted = Request.objects.filter(name=request.user, statut='process').count()
-  denied = Request.objects.filter(name=request.user, statut='denied').count()
-  awaits =  Request.objects.filter(name=request.user, statut='await')
-  form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-  print(form)
-  form.save()
-  context ={
-    'requests_list': club_requests ,
-    'requests_not_await': club_requests.exclude(statut="await") ,
-    'events_list': todays_events , 
-    'today': today.strftime("%d %B , %Y"),
-    'clubs': clubs ,
-    'accepted': accepted,
-    'denied' : denied,
-    'awaits': awaits.count(), 
-    'notification':'has-noti' if accepted>0 or denied>0  else '',
-    'form':form,
-  }
-  return render(request, 'club/club.html', context)
-  
+    all_requests = Request.objects.all()
+    today = datetime.now()
+    todays_events = [request for request in all_requests if request.date.date() == today.date() and request.statut=='process']  
+    clubs = User.objects.count()-1
+    club_requests = Request.objects.filter(name=request.user).order_by('-date_request')
+    accepted = Request.objects.filter(name=request.user, statut='process').count()
+    denied = Request.objects.filter(name=request.user, statut='denied').count()
+    awaits =  Request.objects.filter(name=request.user, statut='await')
+    form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    form.save()
+    context ={
+      'requests_list': club_requests ,
+      'requests_not_await': club_requests.exclude(statut="await") ,
+      'events_list': todays_events , 
+      'today': today.strftime("%d %B , %Y"),
+      'clubs': clubs ,
+      'accepted': accepted,
+      'denied' : denied,
+      'awaits': awaits.count(), 
+      'notification':'has-noti' if accepted>0 or denied>0  else '',
+      'form':form,
+    }
+    return render(request, 'club/club.html', context)
 
+@login_required
 def submit_event_view(request):
   if request.method=='POST':
     event = request.POST.get('event')
     classe = request.POST.get('classe')
     description = request.POST.get('description')
-    request = Request(name=request.user, event=event, classe=classe, description=description)
-    request.save()
-    return  HttpResponseRedirect(reverse('club:club_portal',args=() ))
-  return render(request, 'club/club_request.html')
+    date = request.POST.get('date')
+    str_date=str(date)
+    temp_date = parse_date(str_date)
     
+    
+    request = Request(name=request.user, event=event, classe=classe, description=description ,date='temp_date')
+    request.save()
+     
+      
+    return  HttpResponseRedirect(reverse('club:club_portal',args=() ))
+   
+
+  return render(request, 'club/club_request.html',)
+    
+
+
+@login_required
 def form_view(request , pk):
   if not request.user.is_staff:
     accepted = Request.objects.filter(name=request.user, statut='process').count()

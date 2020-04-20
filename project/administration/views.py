@@ -1,18 +1,25 @@
 from django.shortcuts import render,redirect
 from club.models import Request
-from datetime import datetime
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from main.forms import ProfileForm
+from django.utils import timezone
 # Create your views here.
+
+
+@login_required
 def admin(request):
-  all_requests = Request.objects.all()
-  today = datetime.now()
+  all_requests = Request.objects.all().order_by('-date_request')
+  today = timezone.now()
   todays_events = [request for request in all_requests if request.date.date() ==today.date()and request.statut=='process']  
   clubs = User.objects.count()-1
   accepted = Request.objects.filter(statut='process').count()
   denied = Request.objects.filter(statut='denied').count()
   awaits =  Request.objects.filter(statut='await')
+  form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+  form.save()
   context ={
     'requests_list': all_requests ,
     'events_list': todays_events , 
@@ -21,10 +28,13 @@ def admin(request):
     'accepted': accepted,
     'denied' : denied,
     'awaits': awaits.count(), 
-    'notification':'has-noti' if awaits.count()>0 else ''
+    'notification':'has-noti' if awaits.count()>0 else '',
+    'form' : form,
   }
   return render(request, 'admin/admin.html', context)
 
+
+@login_required
 def request_view(request , pk):
   if request.user.is_staff:
     awaits =  Request.objects.filter(statut='await')
@@ -42,11 +52,12 @@ def request_view(request , pk):
     return render(request, 'admin/request_form.html', context)
   return  HttpResponseRedirect(reverse('administration:admin_portal',args=() ))
 
+
+@login_required
 def submit_view(request, pk):
   if request.method =='POST':
     statut = request.POST.get('radios')
     note = request.POST.get('note')
-    print(note)
     update = Request.objects.get(pk=pk)
     if statut==None :
       update.statut="await"

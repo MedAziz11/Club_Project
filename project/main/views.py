@@ -37,7 +37,6 @@ def signup_view(request):
 def login_view(request):
   username = request.POST.get('name', False)
   password = request.POST.get('pass', False)
-  print(password)
   user = authenticate(username=username, password=password)   #autheticate
   if user is not None and user.is_active: # if the authetication goes well and the user is active
     login(request, user) # do the login in django system
