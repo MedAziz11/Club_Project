@@ -81,7 +81,7 @@
     <script src="{% static '/main/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static '/main/js/main.js' %}"></script>
     <script >
-    $('#password, #password').on('keyup', function () {
+    $('#password, #password1').on('keyup', function () {
         if ($('#password').val() == $('#password1').val()) {
           $('#message').html('Matching').css('color', 'green');
         } else 

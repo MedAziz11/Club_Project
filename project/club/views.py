@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from club.forms import DateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
@@ -8,17 +5,18 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from main.forms import ProfileForm
-
 from .models import Request
-from django.utils.dateparse import parse_date 
+from django.utils import timezone
 # Create your views here.**
 
 
 @login_required
 def club(request):
     all_requests = Request.objects.all()
-    today = datetime.now()
+    today = timezone.now()
     todays_events = [request for request in all_requests if request.date.date() == today.date() and request.statut=='process']  
+    Request.objects.filter(date__lte=today).delete()# less than and equall
+
     clubs = User.objects.count()-1
     club_requests = Request.objects.filter(name=request.user).order_by('-date_request')
     accepted = Request.objects.filter(name=request.user, statut='process').count()
@@ -47,17 +45,9 @@ def submit_event_view(request):
     classe = request.POST.get('classe')
     description = request.POST.get('description')
     date = request.POST.get('date')
-    str_date=str(date)
-    temp_date = parse_date(str_date)
-    
-    
-    request = Request(name=request.user, event=event, classe=classe, description=description ,date='temp_date')
+    request = Request(name=request.user, event=event, classe=classe, description=description ,date=date)
     request.save()
-     
-      
     return  HttpResponseRedirect(reverse('club:club_portal',args=() ))
-   
-
   return render(request, 'club/club_request.html',)
     
 

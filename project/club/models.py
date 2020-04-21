@@ -13,10 +13,10 @@ class Request (models.Model):
     name = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.CharField(max_length=50, blank=False, null=False)
     classe = models.CharField(max_length=5, blank=False, null=False)
-    date = models.DateTimeField(blank=True, null=True )
+    date = models.DateTimeField(blank=False, null=False,default=timezone.now()  )
     description = models.TextField()
     note = models.TextField(blank=True, null=True)
     date_request =models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f"{ self.name.username } request"
