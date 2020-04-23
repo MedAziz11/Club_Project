@@ -155,6 +155,7 @@
                     </div>
                     <div class="au-task ">
                         <div class="au-task__title">
+                        {% if events_list %}    
                             <p>Events this day</p>
                         </div>
                         {% for event in events_list %}
@@ -167,6 +168,11 @@
                                     <!-- time -->{{ event.date| time:"H:i" }} -- {{ event.classe }}</span>
                             </div>
                             {% endfor %}
+                        {% else %}
+                        <p>No events today</p>
+                        </div>
+                        {% endif %}
+
 
 
                             <!-- colors

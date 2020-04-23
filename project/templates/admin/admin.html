@@ -1,9 +1,8 @@
 {% extends 'layout.html' %}
-
-
 {% block content %}
 
 {% if user.is_staff %}
+
 <div class="row-m-t-20 row mt-3">
     <div class="section__content section__content--p30">
         <div class="container-fluid">
@@ -164,8 +163,6 @@
                                     <!-- time -->{{ event.date| time:"H:i" }} -- {{ event.classe }}</span>
                             </div>
                             {% endfor %}
-
-
                             <!-- colors
                               au-task__item--primary
                               au-task__item--success
@@ -177,8 +174,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 {% else %}

@@ -26,14 +26,14 @@ class RegisterForm(forms.ModelForm):
         username = self.cleaned_data.get('username')
         queryset = User.objects.filter(username=username)
         if len(queryset)>0:
-            raise forms.ValidationError(username + ' is already added')
+            raise forms.ValidationError(username + ' is already used')
         return username
 
     def clean_email(self, *args):
         email = self.cleaned_data.get('email')
         queryset = User.objects.filter(email=email)
         if len(queryset)>0:
-            raise forms.ValidationError('email is already added')
+            raise forms.ValidationError('email is already used')
         return email
 
     def clean_password1(self, *args):
