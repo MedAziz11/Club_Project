@@ -7,10 +7,12 @@ from django.urls import reverse
 from main.forms import ProfileForm
 from .models import Request
 from django.utils import timezone
+
+
 # Create your views here.**
 
 
-@login_required
+@login_required(login_url="main:index")
 def club(request):
     all_requests = Request.objects.all()
     today = timezone.now()
@@ -37,7 +39,7 @@ def club(request):
     }
     return render(request, 'club/club.html', context)
 
-@login_required
+@login_required(login_url="main:index")
 def submit_event_view(request):
   if request.method=='POST':
     event = request.POST.get('event')
@@ -51,7 +53,7 @@ def submit_event_view(request):
     
 
 
-@login_required
+@login_required(login_url="main:index")
 def form_view(request , pk):
   club_request = Request.objects.get(pk=pk)
   if club_request.name==request.user: 

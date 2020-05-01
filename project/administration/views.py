@@ -9,7 +9,7 @@ from django.utils import timezone
 # Create your views here.
 
 
-@login_required
+@login_required(login_url="main:index")
 def admin(request):
   all_requests = Request.objects.all().order_by('-date_request')
   today = timezone.now()
@@ -34,7 +34,7 @@ def admin(request):
   return render(request, 'admin/admin.html', context)
 
 
-@login_required
+@login_required(login_url="main:index")
 def request_view(request , pk):
   if request.user.is_staff:
     awaits =  Request.objects.filter(statut='await')
@@ -53,7 +53,7 @@ def request_view(request , pk):
   return  HttpResponseRedirect(reverse('administration:admin_portal',args=() ))
 
 
-@login_required
+@login_required(login_url="main:index")
 def submit_view(request, pk):
   if request.method =='POST':
     statut = request.POST.get('radios')

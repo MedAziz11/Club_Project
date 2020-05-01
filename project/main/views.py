@@ -5,9 +5,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from main.forms import RegisterForm
-from django.contrib import messages
-#def index_view(request):
-#  return render(request, 'main/login.html')
+from project.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
+
 
 def index_view(request):
   if request.user.is_authenticated: # we test if the user already authenticated
@@ -25,6 +25,10 @@ def signup_view(request):
       username = form.cleaned_data.get('username')
       password = form.cleaned_data.get('password')
       form.save()
+      #subject = 'Welcome to ISIEVENT'
+      #message = 'You created an account now '
+      #recepient = str(form['email'].value())
+      #send_mail(subject, message, EMAIL_HOST_USER, [recepient], fail_silently = False) for email verification
       user = User.objects.get(username=username)
       user.set_password(password)# because the form is making the password unusable for the authentification
       user.save()

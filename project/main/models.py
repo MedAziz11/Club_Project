@@ -17,5 +17,5 @@ class Profile(models.Model):
 def update_profile_signal(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-    instance.profile.save()#when a user is signup this adds a profile automatically
+    instance.profile.save()#when a user signup this adds a profile automatically
 
